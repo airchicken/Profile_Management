@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            padding: 0%;
+            width: 200px;
+        }
+
+        #scoreDiv {
+            width: fit-content;
+
+            background-color: dodgerblue;
+            margin: auto;
+     
+        }
+        #currentScore{
+            color: aliceblue;
+            font-size: x-large;
+       
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="scoreDiv">
+        <br>
+        <span id="currentScore">打分中...</span>
+    </div>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>
+        for (let index = 4; index >= 0; index--) $("#scoreDiv").prepend(` <img src="images/bulbOff.png" id="bulb${index}" class="bulb" alt="bulb is on">`);
+        function setE() {
+            $.each($(".bulb"), function () {
+                $(this).on("mouseenter", function () {
+                    $(this).next().prevAll().attr("src", "images/bulbOn.png");
+                    $("#currentScore").html(`打分中...${$(this).prevAll().length + 1}`);
+                })
+
+                $(this).on("mouseleave", function () {
+
+                    $(this).parent().find("*").attr("src", "images/bulbOff.png");
+                    $("#currentScore").html(`打分中...`);
+                })
+
+                $(this).on("click", function () {
+                    $("#currentScore").html(`你給了${$(this).prevAll().length + 1}個燈`);
+                    $("#scoreDiv").find(".bulb").off("mouseleave");
+                    $("#scoreDiv").find(".bulb").off("mouseenter");
+                    $("#scoreDiv").find(".bulb").off("click");
+                })
+
+                $(this).on("dblclick", function () {
+                    $("#currentScore").html(`重新評分...`);
+                    $(this).parent().find("*").attr("src", "images/bulbOff.png");
+                    setE();
+                })
+            });
+        }
+        setE();
+
+
+
+    </script>
+
+</body>
+
+</html>
